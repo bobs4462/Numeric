@@ -1,51 +1,48 @@
 #include "gauss.h"
 
-double * gcompute(EQSYS * ep)
+double * gcompute(SLE * emp)
 {
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++)
-			printf("%f\t", ep->matrix[i][j]);
-		printf("%f\n\n\n", ep->freememb[i]);
-	}
-	int k;
-	double a = 0;
-	double * solution = (double *) malloc(sizeof(double) * 3);
-	for (k = 0; k < 3; k++) {
-		a = ep->matrix[k][k];	
-		for (int j = k; j < 3; j++) {
-			ep->matrix[k][j] /= a;
+	int k = 0;
+	double tmp = 0;
+	double * solution = (double *) malloc(sizeof(double) * (emp->sz - 1));
+	for (k = 0; k < emp->sz - 1; k++) {
+		mx_check(emp, k);
+		tmp = emp->mx[k * emp->sz + k];	
+		for (int j = k; j < emp->sz; j++) {
+			emp->mx[k * emp->sz + j] /= tmp;
 		}
-		ep->freememb[k] /= a;
-		for (int i = k + 1; i < 3; i++) {
-			a = ep->matrix[i][k];	
-			for (int j = k; j < 3; j++) 
-				ep->matrix[i][j] -= (a * ep->matrix[k][j]);
-			ep->freememb[i] -= (a * ep->freememb[k]);
+		for (int i = k + 1; i < emp->sz - 1; i++) {
+			tmp = emp->mx[i * emp->sz + k];	
+			for (int j = k; j < emp->sz; j++) 
+				emp->mx[i * emp->sz + j] -= (tmp * emp->mx[k * emp->sz + j]);
 		}
+		for (int i = 0; i < (emp->sz - 1); i++) {
+			for (int j = 0; j < emp->sz; j++) {
+				printf("%f\t", emp->mx[i * emp->sz + j]);
+			}
+			printf("\n");
+		}
+		puts("\n\n");
 	}
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++)
-			printf("%f\t", ep->matrix[i][j]);
-		printf("%f\n\n\n", ep->freememb[i]);
-	}
-	k--;	
+	k--;
+	printf("%d\n", k);
 	for (; k > 0; k--) {
 		for (int i = k - 1; i > -1; i--) {
-			a = ep->matrix[i][k];
-			for (int j = k; j > i; j--)
-				ep->matrix[i][j] -= (a * ep->matrix[k][j]);
-			ep->freememb[i] -= (a * ep->freememb[k]);
+			tmp = emp->mx[i * emp->sz + k];
+			for (int j = (emp->sz-1); j > i; j--)
+				emp->mx[i * emp->sz + j] -= (tmp * emp->mx[k * emp->sz + j]);
 		}
-	}
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 3; j++)
-			printf("%f\t", ep->matrix[i][j]);
-		printf("%f\n", ep->freememb[i]);
+		for (int i = 0; i < (emp->sz - 1); i++) {
+			for (int j = 0; j < emp->sz; j++) {
+				printf("%f\t", emp->mx[i * emp->sz + j]);
+			}
+			printf("\n");
+		}
+		puts("\n\n");
 	}
 
-
-	for (int i = 0; i < 3; i++)
-		solution[i] = ep->freememb[i];
+	for (int i = 0; i < emp->sz - 1; i++)
+		solution[i] = emp->mx[i * emp->sz  + emp->sz - 1];
 	return solution;
 }
 

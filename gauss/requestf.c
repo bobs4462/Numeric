@@ -1,14 +1,15 @@
 #include "gauss.h"
+#include <string.h>
 
 FILE * requestf(void)
 {
-	puts("Пожалуйста введите название файла с уравнением");
+	puts(FILEREQ);
 	char name[64];
 	fgets(name, 63, stdin);
 	name[strlen(name) - 1] = '\0';
-	FILE * eq = fopen(name, "r");
-	if (eq)
-		return eq;
+	FILE * efp = fopen(name, "r");
+	if (efp)
+		return efp;
 	else {
 		puts("Такого файла не существует");
 		exit(1);

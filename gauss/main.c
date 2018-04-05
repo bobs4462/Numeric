@@ -3,26 +3,28 @@
 int main(int argc, char **argv)
 {
 	SLE * emp;
-	double * solution, determinant;
+	double * solution, det;
 	FILE * efp;
 	if (argc > 1)
-		eq = fopen(argv[1], "r");
+		efp = fopen(argv[1], "r");
 	else 
-		eq = requestf();
-	emp = processf(eq);
-	if((determinant = determ(emp)) != 0)
-		talktu(DETISZ
-		
-	solution = gauss_it(array);
-	puts("");
-	for (int i = 0; i < 3; i++)
+		efp = requestf();
+	emp = processf(efp);
+	if(!(det = determ(emp))) {
+		puts(DETISZ);	
+		exit(1);
+	}
+	else 
+		printf(DETIS, det);
+	solution = gcompute(emp);
+	for (int i = 0; i < emp->sz - 1; i++)
 		printf("Корень %d: %f\n", i, solution[i]);
 	puts("");
 
 	
-	farewell();
-	fclose(eq);
+	puts(FAREWELL);
+	fclose(efp);
 	free(solution);
-	free(array);
+	free(emp);
 	return 0;
 }
