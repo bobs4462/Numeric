@@ -9,6 +9,14 @@ SLE *processf(FILE *efp)
 	unsigned short size = 0;
 	int ctmp = 0;
 	bool minus = false;
+
+	if (verbose) {
+		printf("Уравнение:\n");
+		while((ctmp = getc(efp)) != EOF)
+			putchar(ctmp);
+		fseek(efp, 0L, SEEK_SET);
+	}
+
 	while ((ctmp = getc(efp)) != '\n') {
 		ungetc(ctmp, efp);
 		disposer(efp);
@@ -17,7 +25,9 @@ SLE *processf(FILE *efp)
 	}
 	SLE *emp = (SLE *) malloc(offsetof(SLE, mx) + (size-1) * size * sizeof(double));
 	emp->sz = size; 
+
 	fseek(efp, 0L, SEEK_SET);
+
 	for (int i = 0; i < (size - 1); i++) 
 		for (int j = 0; j < size; j++) {
 			minus = disposer(efp);	
@@ -25,14 +35,11 @@ SLE *processf(FILE *efp)
 			if (minus)
 				emp->mx[i * size + j] *= -1;
 		} 
-	printf("%d\n", size);
-	for (int i = 0; i < (size - 1); i++) {
-		for (int j = 0; j < size; j++) {
-			printf("%f\t", emp->mx[i * size + j]);
-		}
-		printf("\n");
+	if (verbose) {
+		printf("\nМатрица:");
+		show_state(emp);
 	}
-	printf("Ready to return");
+
 	return emp;
 }
 
@@ -45,7 +52,7 @@ static bool disposer(FILE * efp)
 			minus = true;
 	}
 	if (temp == EOF) {
-		printf("Corrupted");
+		printf(CORRUPTF);
 		exit(1);
 	}
 	ungetc(temp, efp);

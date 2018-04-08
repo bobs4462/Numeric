@@ -1,4 +1,4 @@
-#include "gauss.h"
+#include "library.h"
 
 static int sign(int i);
 static SLE *shrink(SLE *emp, int n);

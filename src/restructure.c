@@ -8,11 +8,16 @@ void restructure(SLE *emp)
 	
 	for (int i = 0; i < sz - 1; i++) {
 		for (int j = 0; j < sz - 1; j++) {
-			if (i != j)
+			if (i != j) 
 				tmp += fabs(emp->mx[i * sz + j]);
 		}
-		if (fabs(emp->mx[i * sz + i]) >= tmp)
+		if (fabs(emp->mx[i * sz + i]) >= tmp) {
+			tmp = 0;
+#ifdef DIAGNOSTICS
+					printf("Пропускаю строку %d\n", i + 1);
+#endif
 			continue;
+		}
 		else {
 			for (int k = i + 1; k < sz - 1; k++) {
 			 	if (fabs(emp->mx[k * sz + i]) >= tmp) {
@@ -22,7 +27,7 @@ void restructure(SLE *emp)
 						emp->mx[k * sz + m] = tmp;
 					}
 #ifdef DIAGNOSTICS
-					diagnose(emp);
+					show_state(emp);
 #endif
 					chng = true;
 					break;
@@ -42,7 +47,7 @@ void restructure(SLE *emp)
 							emp->mx[m * sz + k] = tmp;
 						}
 #ifdef DIAGNOSTICS
-						diagnose(emp);
+						show_state(emp);
 #endif
 						chng = true;
 						break;
@@ -50,7 +55,7 @@ void restructure(SLE *emp)
 				}
 			}
 			if (!chng) {
-				printf("УПС! Кажется метод Зейделя не сойдется на этой матрице!");
+				printf(INAPPL);
 				exit(1);
 			}
 			else {

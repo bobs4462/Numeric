@@ -1,6 +1,6 @@
 #include "library.h"
 
-void diagnose(SLE *emp) 
+void show_state(SLE *emp) 
 {
 	printf("\n");
 	for (int i = 0; i < (emp->sz - 1); i++) {
