@@ -1,26 +1,21 @@
-#include "gauss.h"
+#include "library.h"
 
 int main(int argc, char **argv)
 {
+	setvbuf(stdout, NULL, _IONBF, 1);
 	SLE *emp;
-	double * solution, det;
+	double * solution;
 	FILE * efp;
 	if (argc > 1)
 		efp = fopen(argv[1], "r");
 	else 
-		efp = requestf();
+		printf("BYE");
 	emp = processf(efp);
-	if(!(det = determ(emp))) {
-		puts(DETISZ);	
-		exit(1);
-	}
-	else 
-		printf(DETIS, det);
-	solution = gcompute(emp);
+	restructure(emp);
+	solution = zcompute(emp, 0.00001);
 	for (int i = 0; i < emp->sz - 1; i++)
 		printf("Корень %d: %f\n", i + 1, solution[i]);
 	
-	puts(FAREWELL);
 	fclose(efp);
 	free(solution);
 	free(emp);

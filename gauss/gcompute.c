@@ -1,10 +1,10 @@
 #include "gauss.h"
 
-double * gcompute(SLE * emp)
+double *gcompute(SLE *emp)
 {
 	int k = 0;
 	double tmp = 0;
-	double * solution = (double *) malloc(sizeof(double) * (emp->sz - 1));
+	double *solution = (double *) malloc(sizeof(double) * (emp->sz - 1));
 	for (k = 0; k < emp->sz - 1; k++) {
 		mx_check(emp, k);
 		tmp = emp->mx[k * emp->sz + k];	
@@ -16,29 +16,14 @@ double * gcompute(SLE * emp)
 			for (int j = k; j < emp->sz; j++) 
 				emp->mx[i * emp->sz + j] -= (tmp * emp->mx[k * emp->sz + j]);
 		}
-		for (int i = 0; i < (emp->sz - 1); i++) {
-			for (int j = 0; j < emp->sz; j++) {
-				printf("%f\t", emp->mx[i * emp->sz + j]);
-			}
-			printf("\n");
-		}
-		puts("\n\n");
 	}
 	k--;
-	printf("%d\n", k);
 	for (; k > 0; k--) {
 		for (int i = k - 1; i > -1; i--) {
 			tmp = emp->mx[i * emp->sz + k];
 			for (int j = (emp->sz-1); j > i; j--)
 				emp->mx[i * emp->sz + j] -= (tmp * emp->mx[k * emp->sz + j]);
 		}
-		for (int i = 0; i < (emp->sz - 1); i++) {
-			for (int j = 0; j < emp->sz; j++) {
-				printf("%f\t", emp->mx[i * emp->sz + j]);
-			}
-			printf("\n");
-		}
-		puts("\n\n");
 	}
 
 	for (int i = 0; i < emp->sz - 1; i++)

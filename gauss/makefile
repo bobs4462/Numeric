@@ -11,3 +11,6 @@ $(OBJ): gauss.h
 
 run:
 	./gauss
+
+clean:
+	rm *.o gauss

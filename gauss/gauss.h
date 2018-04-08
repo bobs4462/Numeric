@@ -7,7 +7,9 @@
 #define DETISZ   "Определитель вашего уравнения равен нулю...\n"
 #define FAREWELL "Всего вам хорошего, заходите ещё!\n"
 #define DETIS 	 "Детерминант уравнения равен %f\n"
-
+#define CORRUPTF "Файл не содержит подходящего уравнения!\n"
+#define EXCHG    "Меняю местами строки %d и %d\n"
+#define FILENFND "Такого файла не существует!\n"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -20,11 +22,11 @@ typedef struct {
 	double mx[];
 } SLE;
 
-SLE * processf(FILE *efp);
-FILE * requestf(void);
-double * gcompute(SLE * emp);
-double determ(SLE * emp);
-void mx_check(SLE * emp, int k);
+SLE *processf(FILE *efp);
+FILE *requestf(void);
+double *gcompute(SLE *emp);
+double determ(SLE *emp);
+void mx_check(SLE *emp, int k);
 
 
 #endif

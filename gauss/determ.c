@@ -1,12 +1,13 @@
 #include "gauss.h"
 
 static int sign(int i);
-static SLE * shrink(SLE * emp, int n);
-double determ(SLE * emp)
+static SLE *shrink(SLE *emp, int n);
+
+double determ(SLE *emp)
 {
 	double result = 0;
-	SLE * tmparr[emp->sz - 1];
-	if (emp->sz == 2)
+	SLE *tmparr[emp->sz - 1];
+	if (emp->sz == 3)
 		return emp->mx[0] * emp->mx[4] - emp->mx[1] * emp->mx[3];
 	else {
 		for (int i = 0; i < emp->sz - 1; i++) {
@@ -30,9 +31,9 @@ static int sign(int i)
 	return one;
 }
 
-static SLE * shrink(SLE * emp, int n)
+static SLE *shrink(SLE *emp, int n)
 {
-	SLE * nemp = (SLE *) malloc(offsetof(SLE, mx) + (emp->sz - 1) * (emp->sz - 2) * sizeof(double));
+	SLE *nemp = (SLE *) malloc(offsetof(SLE, mx) + (emp->sz - 1) * (emp->sz - 2) * sizeof(double));
 	nemp->sz = emp->sz - 1;
 	for (int i = 1; i < emp->sz - 1; i++)
 		for (int j = 0; j < emp->sz - 1; j++) {

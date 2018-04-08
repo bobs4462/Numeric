@@ -1,4 +1,4 @@
-#include "gauss.h"
+#include "library.h"
 #include <ctype.h>
 static bool disposer(FILE *efp);
 
@@ -32,7 +32,7 @@ SLE *processf(FILE *efp)
 		}
 		printf("\n");
 	}
-
+	printf("Ready to return");
 	return emp;
 }
 
@@ -45,7 +45,7 @@ static bool disposer(FILE * efp)
 			minus = true;
 	}
 	if (temp == EOF) {
-		printf(CORRUPTF);
+		printf("Corrupted");
 		exit(1);
 	}
 	ungetc(temp, efp);
