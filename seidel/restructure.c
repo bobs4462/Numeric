@@ -21,7 +21,9 @@ void restructure(SLE *emp)
 						emp->mx[i * sz + m] = emp->mx[k * sz + m];
 						emp->mx[k * sz + m] = tmp;
 					}
+#ifdef DIAGNOSTICS
 					diagnose(emp);
+#endif
 					chng = true;
 					break;
 				}
@@ -39,7 +41,9 @@ void restructure(SLE *emp)
 							emp->mx[m * sz + i] = emp->mx[m * sz + k];
 							emp->mx[m * sz + k] = tmp;
 						}
+#ifdef DIAGNOSTICS
 						diagnose(emp);
+#endif
 						chng = true;
 						break;
 					}
